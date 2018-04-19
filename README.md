@@ -89,3 +89,15 @@ dao包是数据库CRUD（MYSQL），filter做了一个自定义的注解型认�
 <h4>email：zhupeijie_java@126.com</h4>
 <h5>有什么问题，欢迎联系QQ：1341933031</h5>
 
+
+<h3>系列问题修复（Series Problem fixes）</h3>
+<span>Please change the related configuration after downloading, such as database connection, Redis connection, test class hard coded data, etc.</span>
+<span>下载后请更改相关的配置，类似数据库连接、Redis连接、测试类硬编码数据等</span>
+<h4>0.0.0.1<h4>
+<h6>Update the SLF4J reference for the pom file, add logback-classic, logback-core two log components, configure Logback.xml, and implement console and file log output 
+There may be a Pom file reference problem in the previous version-error: 
+Could not initialize class Org.apache.shiro.spring.LifecycleBeanPostProcessor This update project function is normal, no exception, 
+there are debugging a bug friend please contact me, thank you<h6>
+<h6>更新pom文件的slf4j引用，增加logback-classic、logback-core两个日志组件，配置logback.xml,实现控制台及文件日志输出
+上一版本可能存在pom文件引用问题-报错：Could not initialize class org.apache.shiro.spring.LifecycleBeanPostProcessor
+本次更新项目功能均正常，暂无异常，有调试出bug的朋友请联系我，谢谢<h6>
