@@ -79,6 +79,67 @@ The new SessionManager reduces the number of SessonManager reads and improves th
 dao包是数据库CRUD（MYSQL），filter做了一个自定义的注解型认证，session包中使用Redis做session管理，且自定义一个
 新的SessionManager减少默认SessonManager读取次数，提高性能。Util包是对RedisCRUD等的功能封装。</p>
 
+public enum DefaultFilter {  <br>
+    anon(AnonymousFilter.class),  <br>
+    authc(FormAuthenticationFilter.class),  <br>
+    authcBasic(BasicHttpAuthenticationFilter.class),  <br>
+    logout(LogoutFilter.class),  <br>
+    noSessionCreation(NoSessionCreationFilter.class),  <br>
+    perms(PermissionsAuthorizationFilter.class),  <br>
+    port(PortFilter.class),  <br>
+    rest(HttpMethodPermissionFilter.class),  <br>
+    roles(RolesAuthorizationFilter.class),  <br>
+    ssl(SslFilter.class),  <br>
+    user(UserFilter.class);  <br>
+}   <br>
+
+<table>
+    <tr>
+        <td>authc</td>
+        <td>基于表单的拦截器；如“/**=authc”，如果没有登录会跳到相应的登录页面登录；主要属性：usernameParam：表单提交的用户名参数名（ username）；  passwordParam：表单提交的密码参数名（password）； rememberMeParam：表单提交的密码参数名（rememberMe）；  loginUrl：登录页面地址（/login.jsp）；successUrl：登录成功后的默认重定向地址； failureKeyAttribute：登录失败后错误信息存储key（shiroLoginFailure）；</td>
+    </tr>
+    <tr>
+        <td>authcBasic</td>
+        <td>Basic HTTP身份验证拦截器，主要属性： applicationName：弹出登录框显示的信息（application）；</td>
+    </tr>
+    <tr>
+        <td>logout</td>
+        <td>退出拦截器，主要属性：redirectUrl：退出成功后重定向的地址（/）;示例“/logout=logout”</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>用户拦截器，用户已经身份验证/记住我登录的都可；示例“/**=user”</td>
+    </tr>
+    <tr>
+        <td>anon</td>
+        <td>匿名拦截器，即不需要登录即可访问；一般用于静态资源过滤；示例“/static/**=anon”</td>
+    </tr>
+    <tr>
+        <td>roles</td>
+        <td>角色授权拦截器，验证用户是否拥有所有角色；主要属性： loginUrl：登录页面地址（/login.jsp）；unauthorizedUrl：未授权后重定向的地址；示例“/admin/**=roles[admin]”</td>
+    </tr>
+    <tr>
+        <td>perms</td>
+        <td>权限授权拦截器，验证用户是否拥有所有权限；属性和roles一样；示例“/user/**=perms["user:create"]”</td>
+    </tr>
+    <tr>
+        <td>port</td>
+        <td>端口拦截器，主要属性：port（80）：可以通过的端口；示例“/test= port[80]”，如果用户访问该页面是非80，将自动将请求端口改为80并重定向到该80端口，其他路径/参数等都一样</td>
+    </tr>
+    <tr>
+        <td>rest</td>
+        <td>rest风格拦截器，自动根据请求方法构建权限字符串（GET=read, POST=create,PUT=update,DELETE=delete,HEAD=read,TRACE=read,OPTIONS=read, MKCOL=create）构建权限字符串；示例“/users=rest[user]”，会自动拼出“user:read,user:create,user:update,user:delete”权限字符串进行权限匹配（所有都得匹配，isPermittedAll）；</td>
+    </tr>
+    <tr>
+        <td>ssl</td>
+        <td>SSL拦截器，只有请求协议是https才能通过；否则自动跳转会https端口（443）；其他和port拦截器一样；</td>
+    </tr>
+    <tr>
+        <td>noSessionCreation</td>
+        <td>不创建会话拦截器，调用 subject.getSession(false)不会有什么问题，但是如果 subject.getSession(true)将抛出 DisabledSessionException异常；</td>
+    </tr>
+</table>
+
 <p>There are many annotations in the  project, all of which are annotated in Chinese and English. If there are any questions, please leave a message. </p>
 <p>项目中注释偏多且均为中英注释，如果有什么问题欢迎留言。</p>
 
